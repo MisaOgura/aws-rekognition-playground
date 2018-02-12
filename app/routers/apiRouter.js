@@ -1,5 +1,5 @@
-import { Router } from 'express'
 import AWS from 'aws-sdk'
+import { Router } from 'express'
 
 AWS.config.apiVersions = {rekognition: '2016-06-27'}
 
@@ -29,6 +29,9 @@ apiRouter.get('/rekognition', async (req, res) => {
     if (err) console.log(err, err.stack)
     else res.status(200).send(data)
   })
+})
+
+apiRouter.post('/images', (req, res) => {
 })
 
 export default apiRouter

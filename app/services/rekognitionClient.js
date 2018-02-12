@@ -1,7 +1,5 @@
 import request from 'axios'
 
-const detectText = (imageId) => {
+export const detectText = (imageId) => {
   return request.get(`/api/rekognition?imageId=${imageId}`)
 }
-
-export default detectText
