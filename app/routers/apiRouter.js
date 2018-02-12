@@ -1,21 +1,34 @@
 import { Router } from 'express'
+import AWS from 'aws-sdk'
 
-import databaseClientFactory from '../services/databaseClient'
-const databaseClient = databaseClientFactory()
+AWS.config.apiVersions = {rekognition: '2016-06-27'}
+
+require('dotenv').config()
+
+AWS.config.update({
+  region: process.env.AWS_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+})
+
+const rekognition = new AWS.Rekognition()
 
 const apiRouter = Router()
 
-apiRouter.post('/wikis', (req, res) => {
-  const title = req.body.title
-  const content = req.body.content
-  const latestEntry = databaseClient.insertEntry(title, content)
+apiRouter.get('/rekognition', async (req, res) => {
+  const params = {
+    Image: {
+      S3Object: {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Name: req.query.imageId
+      }
+    }
+  }
 
-  res.status(200).send(latestEntry)
-})
-
-apiRouter.get('/wikis', (req, res) => {
-  const entries = databaseClient.listEntries()
-  res.status(200).send(entries)
+  rekognition.detectText(params, (err, data) => {
+    if (err) console.log(err, err.stack)
+    else res.status(200).send(data)
+  })
 })
 
 export default apiRouter

@@ -3,14 +3,14 @@ import express from 'express'
 import favicon from 'serve-favicon'
 import bodyParser from 'body-parser'
 
-import databaseMiddleware from './utils/databaseMiddleware'
 import componentRouter from './routers/componentRouter'
 import apiRouter from './routers/apiRouter'
+
+require('dotenv').config()
 
 const app = express()
 
 app.use(bodyParser.json())
-app.use(databaseMiddleware)
 app.use('/public', express.static(path.join(__dirname, '../public')))
 app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')))
 

@@ -20,9 +20,10 @@
   "author": "Misa ogura",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.17.0",
-    "better-sqlite3": "^4.0.3",
+    "aws-sdk": "^2.192.0",
+    "axios": "^0.17.1",
     "body-parser": "^1.18.2",
+    "dotenv": "^5.0.0",
     "express": "^4.16.2",
     "moment": "^2.19.1",
     "prop-types": "^15.6.0",

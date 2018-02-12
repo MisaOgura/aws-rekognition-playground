@@ -1,60 +1,23 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
+import React from 'react'
+import { Button } from 'react-bootstrap'
 
-import Routes from './Routes'
-import fetchWikis from '../services/fetchWikis'
+import detectText from '../services/rekognitionClient'
 
-class App extends Component {
-  constructor (props) {
-    super(props)
+function App () {
+  return (
+    <div className='hello-world'>
+      <Button bsStyle='success' onClick={handleClick} id={'bus_8.jpg'}>
+        Play around with AWS Rekognition
+      </Button>
+    </div>
+  )
 
-    this.state = {
-      entries: this.props.entries,
-      selectedEntry: null
-    }
-  }
-
-  componentWillMount () {
-    this.props.history.listen(async (location, action) => {
-      this.setState({selectedEntry: null})
-
-      const path = location.pathname
-
-      if (/\/wikis\/\d+/.test(path)) {
-        const entryId = parseInt(path.replace(/\/wikis\//, ''))
-        const selectedEntry = this.state.entries.find(entry => {
-          return entry.id === entryId
-        })
-        this.setState({selectedEntry})
-      }
-
-      if (path === '/' && action === 'PUSH') {
-        const { data: entries } = await fetchWikis()
-        this.setState({entries})
-      }
-    })
-  }
-
-  render () {
-    const props = {
-      homeProps: {entries: this.state.entries},
-      wikiProps: this.state.selectedEntry
-    }
-
-    return <div className='App container'><Routes {...props} /></div>
+  async function handleClick (e) {
+    const imageId = e.target.id
+    const data = await detectText(imageId)
+    console.log('Data came back from the backend //////')
+    console.log(data)
   }
 }
 
-const entriesPropTypes = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  date_created: PropTypes.string.isRequired,
-  date_updated: PropTypes.string.isRequired
-})
-
-App.propTypes = {
-  entries: PropTypes.arrayOf(entriesPropTypes).isRequired
-}
-
-export default withRouter(App)
+export default App

@@ -5,7 +5,7 @@ const renderPage = (html, preloadedData = null) => {
     <head>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
       <meta charset="UTF-8">
-      <title>Wiki Challenge</title>
+      <title>AWS Rekognition Playground</title>
     </head>
     <body>
     <div id='app'>${html}</div>
