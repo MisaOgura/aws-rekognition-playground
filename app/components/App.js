@@ -1,40 +1,32 @@
 import React, { Component } from 'react'
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import FormData from 'form-data'
 
-import { detectText } from '../services/rekognitionClient'
+import { postImage } from '../services/rekognitionClient'
 
 class App extends Component {
-  async handleClick (e) {
-    const imageId = e.target.id
-
-    try {
-      const data = await detectText(imageId)
-      console.log('Data came back from the backend //////')
-      console.log(data)
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
   handleFileChange (e) {
-    console.log('File change //////')
     this.file = e.target.files[0]
   }
 
   async handleSubmit (e) {
     e.preventDefault()
-    console.log('Submitted //////')
-    console.log(this.file)
-    // TODO - upload file to S3
+
+    const formData = new FormData()
+    formData.append('file', this.file)
+
+    try {
+      const res = await postImage(formData)
+      console.log('Data came back from the backend //////')
+      console.log(res)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   render () {
     return (
       <div className='hello-world'>
-        <Button bsStyle='success' onClick={(e) => this.handleClick(e)} id={'bus_8.jpg'}>
-          Play around with AWS Rekognition!
-        </Button>
-
         <form>
           <FieldGroup
             id='formControlsFile'

@@ -1,5 +1,6 @@
 import request from 'axios'
 
-export const detectText = (imageId) => {
-  return request.get(`/api/rekognition?imageId=${imageId}`)
+export const postImage = (data) => {
+  const config = {headers: { 'content-type': 'multipart/form-data' }}
+  return request.post('/api/images', data, config)
 }
