@@ -26,10 +26,7 @@ apiRouter.post('/images', async (req, res) => {
       Bucket: process.env.AWS_S3_BUCKET,
       Key: imageData.filename
     }
-    console.log(params)
-
-    const responseFromS3 = await s3.putObject(params).promise()
-    console.log(responseFromS3)
+    await s3.putObject(params).promise()
 
     const options = {
       Image: {
@@ -39,9 +36,8 @@ apiRouter.post('/images', async (req, res) => {
         }
       }
     }
-    const responseFromRk = await rekognition.detectText(options).promise()
-
-    res.status(200).send(responseFromRk)
+    const {TextDetections} = await rekognition.detectText(options).promise()
+    res.status(200).send(TextDetections)
   } catch (err) {
     console.error(err, err.stack)
   }
