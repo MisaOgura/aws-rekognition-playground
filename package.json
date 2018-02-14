@@ -1,5 +1,5 @@
 {
-  "name": "wiki-challenge",
+  "name": "aws-rekognition-playground",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -17,7 +17,7 @@
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
-  "author": "Misa ogura",
+  "author": "Misa Ogura",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.192.0",
